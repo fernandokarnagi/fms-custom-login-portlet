@@ -3,6 +3,6 @@
 
 <display>
 	<category name="fms">
-		<portlet id="fms-login" />
+		<portlet id="FMS Login Portlet" />
 	</category>
 </display>

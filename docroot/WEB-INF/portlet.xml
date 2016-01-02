@@ -14,7 +14,7 @@
 			<mime-type>text/html</mime-type>
 		</supports>
 		<portlet-info>
-			<title>fms-login</title>
+			<title>FMS Login Portlet</title>
 			<short-title>FMS Login Portlet</short-title>
 			<keywords>FMS Login Portlet</keywords>
 		</portlet-info>

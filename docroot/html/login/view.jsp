@@ -96,8 +96,11 @@ page contentType="text/html; charset=UTF-8" %>
 		<liferay-ui:error exception="<%= UserLockoutException.class %>" message="this-account-has-been-locked" />
 		<liferay-ui:error exception="<%= UserPasswordException.class %>" message="please-enter-a-valid-password" />
 		<liferay-ui:error exception="<%= UserScreenNameException.class %>" message="please-enter-a-valid-screen-name" />
-        <input type="text" name="<portlet:namespace/>login" class="input-block-level" placeholder="<liferay-ui:message key="your-email-address" />" required>
-        <input type="password" name="<portlet:namespace/>password" class="input-block-level signpwd" placeholder="<liferay-ui:message key="your-password" />" required>
+		
+		<span style="font-size: 38.5px;"> <img src="<%=request.getContextPath()%>/images/revolvelogo.png"/>&nbsp;REVOLVE Portal</span>
+		<br/><br/> 
+        <input type="text" name="<portlet:namespace/>login" class="input-block-level" placeholder="Username" required>
+        <input type="password" name="<portlet:namespace/>password" class="input-block-level signpwd" placeholder="Password" required>
         
 	    <br/>
 		<a onclick="document.getElementById('<portlet:namespace/>signinform').submit();" class="parent" href="#">
@@ -119,7 +122,6 @@ page contentType="text/html; charset=UTF-8" %>
       }
 
       .form-signin {
-        max-width: 300px;
         padding: 19px 29px 29px;
         margin: 0 auto 20px;
         background-color: #fff;
