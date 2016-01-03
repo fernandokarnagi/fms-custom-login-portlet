@@ -106,8 +106,12 @@ public class CustomLogin extends MVCPortlet{
 				
 				String rememberMe = ParamUtil.getString(actionRequest, "rememberMe");	
 				String redirecturl=PortalUtil.getPortalURL(themeDisplay)+themeDisplay.getLayout().getFriendlyURL();
+				redirecturl = "http://fms.ctcdemo.com.sg:8080/home";
+				
+				System.out.println("redirecturl: " + redirecturl);
 
 				String redirect = PortalUtil.getPathMain() + "/portal/login?login="+ login + "&password=" + password + "&rememberMe="+ rememberMe+"&redirect="+redirecturl;
+				System.out.println("redirect: " + redirect);
 				actionResponse.sendRedirect(redirect);
 				
 			}

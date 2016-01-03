@@ -99,17 +99,17 @@ page contentType="text/html; charset=UTF-8" %>
 		
 		<span style="font-size: 38.5px;"> <img src="<%=request.getContextPath()%>/images/revolvelogo.png"/>&nbsp;REVOLVE Portal</span>
 		<br/><br/> 
-        <input type="text" name="<portlet:namespace/>login" class="input-block-level" placeholder="Username" required>
-        <input type="password" name="<portlet:namespace/>password" class="input-block-level signpwd" placeholder="Password" required>
+        <input type="text" name="<portlet:namespace/>login" value="buildingowner@ctcdemo.com.sg" class="input-block-level" placeholder="Username" required>
+        <input type="password" name="<portlet:namespace/>password" password="password" class="input-block-level signpwd" placeholder="Password" required>
         
 	    <br/>
-		<a onclick="document.getElementById('<portlet:namespace/>signinform').submit();" class="parent" href="#">
+		<a onclick="document.getElementById('<portlet:namespace/>signinform').submit();"  href="#">
 			<div class="child1">
-				<span class="pull-right" style="padding-top: 7px;color: #bd1e51;text-decoration: none; "><liferay-ui:message key="sign-in"/></span>
+				<span class="pull-right roundbutton" ><liferay-ui:message key="sign-in"/></span>
 			</div>
 		</a> 
 		<br/>
-	</aui:form>
+	</aui:form> 
 
 </c:otherwise>
 </c:choose>
