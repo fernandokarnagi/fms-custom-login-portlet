@@ -97,7 +97,7 @@ page contentType="text/html; charset=UTF-8" %>
 		<liferay-ui:error exception="<%= UserPasswordException.class %>" message="please-enter-a-valid-password" />
 		<liferay-ui:error exception="<%= UserScreenNameException.class %>" message="please-enter-a-valid-screen-name" />
 		
-		<span style="font-size: 38.5px;"> <img src="<%=request.getContextPath()%>/images/revolvelogo.png"/>&nbsp;RESOLVE Portal</span>
+		<span style="font-size: 38.5px;"> <img src="<%=request.getContextPath()%>/images/resolve-log.png"/></span>
 		<br/><br/> 
         <input type="text" name="<portlet:namespace/>login" value="buildingowner@ctcdemo.com.sg" class="input-block-level" placeholder="Username" required>
         <input type="password" name="<portlet:namespace/>password" password="password" class="input-block-level signpwd" placeholder="Password" required>
