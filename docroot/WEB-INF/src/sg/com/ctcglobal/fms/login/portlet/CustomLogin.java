@@ -1,7 +1,7 @@
 /**
  * 
  */
-package sg.com.ctcdemo.portlet;
+package sg.com.ctcglobal.fms.login.portlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,87 +50,83 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
  * @author tariqliferay.blogspot.com
  *
  */
-public class CustomLogin extends MVCPortlet{
-	
+public class CustomLogin extends MVCPortlet {
+
 	@Override
-	public void doView(RenderRequest renderRequest,
-			RenderResponse renderResponse) throws IOException, PortletException {
+	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		// TODO Auto-generated method stub
 		super.doView(renderRequest, renderResponse);
 	}
-	
+
 	@Override
-	public void render(RenderRequest request, RenderResponse response)
-			throws PortletException, IOException {
+	public void render(RenderRequest request, RenderResponse response) throws PortletException, IOException {
 		// TODO Auto-generated method stub
 		super.render(request, response);
 	}
-	
+
 	/**
 	 * @author tariqliferay.blogspot.com
 	 */
-	@ProcessAction(name="customlogin")
-	public void customlogin(ActionRequest actionRequest,
-			ActionResponse actionResponse) throws IOException, PortletException {
+	@ProcessAction(name = "customlogin")
+	public void customlogin(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException, PortletException {
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		PortletConfig portletConfig = (PortletConfig)actionRequest.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
+		PortletConfig portletConfig = (PortletConfig) actionRequest.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
 		LiferayPortletConfig liferayPortletConfig = (LiferayPortletConfig) portletConfig;
 		SessionMessages.add(actionRequest, liferayPortletConfig.getPortletId() + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_ERROR_MESSAGE);
 		try {
-			
-			boolean isAuthenticated=false;
+			boolean isAuthenticated = false;
 			String login = ParamUtil.getString(actionRequest, "login");
 			String password = ParamUtil.getString(actionRequest, "password");
-			
-			long userId= -1;
-			userId=	getAuthenticatedUserId(themeDisplay.getRequest(), login, password);
-			
-			List<User> userList= getUsersByEmailAddress(login);
-			if(userList!=null&&userList.size()>0&&userId>=0){
-				
-				for(User user:userList){
-					if(userId==user.getUserId()){
-						if(user.getPasswordReset()){
+			long userId = -1;
+
+			userId = getAuthenticatedUserId(themeDisplay.getRequest(), login, password);
+			List<User> userList = getUsersByScreenName(login);
+			if (userList != null && userList.size() > 0 && userId >= 0) {
+
+				for (User user : userList) {
+					if (userId == user.getUserId()) {
+						/*
+						if (user.getPasswordReset()) {
 							user.setPasswordModifiedDate(new Date());
 							user.setPasswordModified(true);
-							user.setPasswordReset(false);
+							//user.setPasswordReset(false);
 							UserLocalServiceUtil.updateUser(user);
 						}
-						isAuthenticated=true;
+						*/
+						isAuthenticated = true;
 					}
 				}
-				
+
 			}
 
-			if(isAuthenticated){
-				
-				String rememberMe = ParamUtil.getString(actionRequest, "rememberMe");	
-				String redirecturl=PortalUtil.getPortalURL(themeDisplay)+themeDisplay.getLayout().getFriendlyURL();
+			if (isAuthenticated) {
+
+				String rememberMe = ParamUtil.getString(actionRequest, "rememberMe");
+				String redirecturl = PortalUtil.getPortalURL(themeDisplay) + themeDisplay.getLayout().getFriendlyURL();
 				redirecturl = "/home";
-				
+
 				System.out.println("redirecturl: " + redirecturl);
 
-				String redirect = PortalUtil.getPathMain() + "/portal/login?login="+ login + "&password=" + password + "&rememberMe="+ rememberMe+"&redirect="+redirecturl;
+				String redirect = PortalUtil.getPathMain() + "/portal/login?login=" + login + "&password=" + password + "&rememberMe="
+						+ rememberMe + "&redirect=" + redirecturl;
 				System.out.println("redirect: " + redirect);
+				System.out.println("new redirect: " + redirect);
 				actionResponse.sendRedirect(redirect);
-				
+
 			}
-			
-		
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("Login Error"+e.toString());
+			System.out.println("Login Error" + e.toString());
 			SessionErrors.add(actionRequest, "authentication-failed");
 		}
-	
 
 	}
-	
+
 	/**
 	 * @author tariqliferay.blogspot.com
 	 */
-	public  long getAuthenticatedUserId(HttpServletRequest request, String login, String password)
-		throws PortalException, SystemException {
+	public long getAuthenticatedUserId(HttpServletRequest request, String login, String password) throws PortalException, SystemException {
 
 		long userId = GetterUtil.getLong(login);
 
@@ -142,8 +138,7 @@ public class CustomLogin extends MVCPortlet{
 
 		if (requestURI.startsWith(contextPath.concat("/api/liferay"))) {
 			throw new AuthException();
-		}
-		else {
+		} else {
 			Map<String, String[]> headerMap = new HashMap<String, String[]>();
 
 			Enumeration<String> enu1 = request.getHeaderNames();
@@ -161,8 +156,7 @@ public class CustomLogin extends MVCPortlet{
 					headers.add(value);
 				}
 
-				headerMap.put(
-					name, headers.toArray(new String[headers.size()]));
+				headerMap.put(name, headers.toArray(new String[headers.size()]));
 			}
 
 			Map<String, String[]> parameterMap = request.getParameterMap();
@@ -170,14 +164,10 @@ public class CustomLogin extends MVCPortlet{
 
 			int authResult = Authenticator.FAILURE;
 
-		
-			authResult = UserLocalServiceUtil.authenticateByEmailAddress(
-				company.getCompanyId(), login, password, headerMap,
-				parameterMap, resultsMap);
+			authResult = UserLocalServiceUtil.authenticateByScreenName(company.getCompanyId(), login, password, headerMap, parameterMap,
+					resultsMap);
 
 			userId = MapUtil.getLong(resultsMap, "userId", userId);
-			
-		
 
 			if (authResult != Authenticator.SUCCESS) {
 				throw new AuthException();
@@ -186,22 +176,38 @@ public class CustomLogin extends MVCPortlet{
 
 		return userId;
 	}
-	
+
 	/**
 	 * @author tariqliferay.blogspot.com
 	 * @param emailAddress
 	 * @return
 	 */
 	private List<User> getUsersByEmailAddress(String emailAddress) {
-		
+
 		try {
-			DynamicQuery userQuery = DynamicQueryFactoryUtil.forClass(User.class,PortalClassLoaderUtil.getClassLoader());
-			Criterion criterion = RestrictionsFactoryUtil.eq("emailAddress",emailAddress);
+			DynamicQuery userQuery = DynamicQueryFactoryUtil.forClass(User.class, PortalClassLoaderUtil.getClassLoader());
+			Criterion criterion = RestrictionsFactoryUtil.eq("emailAddress", emailAddress);
 			userQuery.add(criterion);
 			List<User> userList = UserLocalServiceUtil.dynamicQuery(userQuery);
 			return userList;
-	} catch (SystemException e) {
-		// TODO Auto-generated catch block
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private List<User> getUsersByScreenName(String screenName) {
+
+		try {
+			System.out.println("screenName: " + screenName);
+			DynamicQuery userQuery = DynamicQueryFactoryUtil.forClass(User.class, PortalClassLoaderUtil.getClassLoader());
+			Criterion criterion = RestrictionsFactoryUtil.eq("screenName", screenName);
+			userQuery.add(criterion);
+			List<User> userList = UserLocalServiceUtil.dynamicQuery(userQuery);
+			return userList;
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

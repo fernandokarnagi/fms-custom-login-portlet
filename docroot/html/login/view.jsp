@@ -83,7 +83,7 @@ page contentType="text/html; charset=UTF-8" %>
 	String login = GetterUtil.getString((String)PortalClassInvoker.invoke(false, methodKey, request, "login", company));
 	boolean rememberMe = ParamUtil.getBoolean(request, "rememberMe");
 	%>
-	
+	<div style="margin: auto;width:450px;">
 	<aui:form action="<%= customloginURL %>" method="post" name="signinform" cssClass="form-signin" id="signinform">
 		<aui:input name="saveLastPath" type="hidden" value="<%= false %>" />
 		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
@@ -97,10 +97,10 @@ page contentType="text/html; charset=UTF-8" %>
 		<liferay-ui:error exception="<%= UserPasswordException.class %>" message="please-enter-a-valid-password" />
 		<liferay-ui:error exception="<%= UserScreenNameException.class %>" message="please-enter-a-valid-screen-name" />
 		
-		<span style="font-size: 38.5px;"> <img src="<%=request.getContextPath()%>/images/resolve-log.png"/></span>
+		<div style="font-size: 38.5px;" align="center"> <img src="<%=request.getContextPath()%>/images/resolve-log.png"/></div>
 		<br/><br/> 
-        <input type="text" name="<portlet:namespace/>login" value="buildingowner@ctcdemo.com.sg" class="input-block-level" placeholder="Username" required>
-        <input type="password" name="<portlet:namespace/>password" password="password" class="input-block-level signpwd" placeholder="Password" required>
+       <input type="text" name="<portlet:namespace/>login" value="" class="input-block-level" placeholder="Username" required><br>
+        <input type="password" name="<portlet:namespace/>password" password="" class="input-block-level signpwd" placeholder="Password" required>
         
 	    <br/>
 		<a onclick="document.getElementById('<portlet:namespace/>signinform').submit();"  href="#">
@@ -110,7 +110,8 @@ page contentType="text/html; charset=UTF-8" %>
 		</a> 
 		<br/>
 	</aui:form> 
-
+	</div>
+  
 </c:otherwise>
 </c:choose>
 
@@ -137,6 +138,7 @@ page contentType="text/html; charset=UTF-8" %>
 		border: none;
 		background: #F0F0F0;
 		margin: 0;
+		width:400px;
 	  }
 	  .signpwd {
 		border-top: 1px solid #A3A3A3 !important;

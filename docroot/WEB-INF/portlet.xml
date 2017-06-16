@@ -4,7 +4,7 @@
 	<portlet>
 		<portlet-name>FMS Login Portlet</portlet-name>
 		<display-name>FMS Login Portlet</display-name>
-		<portlet-class>sg.com.ctcdemo.portlet.CustomLogin</portlet-class>
+		<portlet-class>sg.com.ctcglobal.fms.login.portlet.CustomLogin</portlet-class>
 		<init-param>
 			<name>view-template</name>
 			<value>/html/login/view.jsp</value>
